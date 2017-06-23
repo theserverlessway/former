@@ -1,4 +1,5 @@
 import argparse
+import json
 import sys
 
 import yaml
@@ -12,6 +13,7 @@ def arguments():
     parser.add_argument('service')
     parser.add_argument('type')
     parser.add_argument('subtype', default='', nargs='?')
+    parser.add_argument('--json', action='store_true')
 
     return parser.parse_args()
 
@@ -26,7 +28,12 @@ def main():
 
         cf_resource['Parameters'] = resource.parameters()
 
-        print(yaml.dump({''.join(e for e in type if e.isalnum()): cf_resource}, default_flow_style=False))
+        data = {'Resources': {''.join(e for e in type if e.isalnum()): cf_resource}}
+        if args.json:
+            output = json.dumps(data, indent=2)
+        else:
+            output = yaml.dump(data, default_flow_style=False)
+        print(output)
     else:
         print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype))
         sys.exit(1)
