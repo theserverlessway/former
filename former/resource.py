@@ -14,8 +14,9 @@ for key, _ in TYPES.items():
     TYPE_KEYS[key.lower()] = key
 
 
-def type_key(service, type):
-    return TYPE_KEYS['::'.join(['AWS', service, type]).lower()]
+def type_key(service, type, subtype):
+    if subtype: subtype = '.' + subtype
+    return TYPE_KEYS[('::'.join(['AWS', service, type])+subtype).lower()]
 
 
 class Resource(object):
@@ -24,6 +25,7 @@ class Resource(object):
 
     def parameters(self):
         root_resource = TYPES[self.root_type]
+        print(root_resource)
 
         properties = {}
         for key, value in root_resource['Properties'].items():
@@ -69,7 +71,9 @@ class Property(object):
         if self.is_primitive_collection():
             return {'SampleKey': self.__collection_description()}
         else:
-            return Resource(TYPES[self.resource + '.' + self.item_type()]).parameters()
+            print(self.resource)
+            print(self.item_type())
+            return Resource(self.resource + '.' + self.item_type()).parameters()
 
     def list_property(self):
         if self.is_primitive_collection():

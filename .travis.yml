@@ -12,7 +12,7 @@ install:
 script:
 - pycodestyle .
 - pyflakes .
-- py.test --cov=former tests
+- make test
 
 after_success:
 - coveralls

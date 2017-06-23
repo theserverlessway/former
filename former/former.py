@@ -10,6 +10,7 @@ def arguments():
     parser = argparse.ArgumentParser(description='Print CloudFormation Resources')
     parser.add_argument('service')
     parser.add_argument('type')
+    parser.add_argument('subtype', default='', nargs='?')
 
     return parser.parse_args()
 
@@ -17,11 +18,9 @@ def arguments():
 def main():
     args = arguments()
 
-    type = former.resource.type_key(args.service, args.type)
+    type = former.resource.type_key(args.service, args.type, args.subtype)
     resource = Resource(type)
-    cf_resource = {
-        'Type': type
-    }
+    cf_resource = {'Type': type}
 
     cf_resource['Parameters'] = resource.parameters()
 
