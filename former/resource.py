@@ -15,8 +15,9 @@ for key, _ in TYPES.items():
 
 
 def type_key(service, type, subtype):
-    if subtype: subtype = '.' + subtype
-    return TYPE_KEYS[('::'.join(['AWS', service, type])+subtype).lower()]
+    if subtype:
+        subtype = '.' + subtype
+    return TYPE_KEYS[('::'.join(['AWS', service, type]) + subtype).lower()]
 
 
 class Resource(object):

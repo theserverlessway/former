@@ -1,6 +1,5 @@
 import json
 
-__spec = {}
 
 def specification():
     # https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json
