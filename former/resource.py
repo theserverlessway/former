@@ -17,7 +17,7 @@ for key, _ in TYPES.items():
 def type_key(service, type, subtype):
     if subtype:
         subtype = '.' + subtype
-    return TYPE_KEYS[('::'.join(['AWS', service, type]) + subtype).lower()]
+    return TYPE_KEYS.get(('::'.join(['AWS', service, type]) + subtype).lower())
 
 
 class Resource(object):
@@ -26,7 +26,6 @@ class Resource(object):
 
     def parameters(self):
         root_resource = TYPES[self.root_type]
-        print(root_resource)
 
         properties = {}
         for key, value in root_resource['Properties'].items():

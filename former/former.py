@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 import yaml
 
@@ -19,9 +20,13 @@ def main():
     args = arguments()
 
     type = former.resource.type_key(args.service, args.type, args.subtype)
-    resource = Resource(type)
-    cf_resource = {'Type': type}
+    if type:
+        resource = Resource(type)
+        cf_resource = {'Type': type}
 
-    cf_resource['Parameters'] = resource.parameters()
+        cf_resource['Parameters'] = resource.parameters()
 
-    print(yaml.dump({''.join(e for e in type if e.isalnum()): cf_resource}, default_flow_style=False))
+        print(yaml.dump({''.join(e for e in type if e.isalnum()): cf_resource}, default_flow_style=False))
+    else:
+        print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype))
+        sys.exit(1)
