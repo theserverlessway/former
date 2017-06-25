@@ -38,7 +38,7 @@ setup(
     ],
     keywords='cloudformation, aws, cloud',
     packages=['former'],
-    install_requires=['requests'],
+    install_requires=['requests', 'pyyaml'],
     entry_points={
         'console_scripts': [
             'former=former.cli:main',
