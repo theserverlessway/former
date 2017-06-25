@@ -1,4 +1,4 @@
-from former.specification import specification
+from former import specification
 
 PRIMITIVE_TYPE = 'PrimitiveType'
 PRIMITIVE_ITEM_TYPE = 'PrimitiveItemType'
@@ -6,8 +6,10 @@ TYPE = 'Type'
 ITEM_TYPE = 'ItemType'
 REQUIRED = 'Required'
 
-SPEC = specification()
-TYPES = {**SPEC['ResourceTypes'], **SPEC['PropertyTypes']}
+SPEC = specification.specification()
+TYPES = {}
+TYPES.update(SPEC['ResourceTypes'])
+TYPES.update(SPEC['PropertyTypes'])
 
 TYPE_KEYS = {}
 for key, _ in TYPES.items():

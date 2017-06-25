@@ -4,7 +4,7 @@ import sys
 
 import yaml
 
-import former.resource
+import former
 from former.resource import Resource
 
 
@@ -32,7 +32,7 @@ def main():
         if args.json:
             output = json.dumps(data, indent=2)
         else:
-            output = yaml.dump(data, default_flow_style=False)
+            output = yaml.safe_dump(data, allow_unicode=True, default_flow_style=False)
         print(output)
     else:
         print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype))

@@ -41,7 +41,7 @@ setup(
     install_requires=['requests'],
     entry_points={
         'console_scripts': [
-            'former=former.former:main',
+            'former=former.cli:main',
         ],
     }
 )
