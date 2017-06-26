@@ -26,7 +26,7 @@ def main():
         resource = Resource(type)
         cf_resource = {'Type': type}
 
-        cf_resource['Parameters'] = resource.parameters()
+        cf_resource['Properties'] = resource.parameters()
 
         data = {'Resources': {''.join(e for e in type if e.isalnum()): cf_resource}}
         if args.json:
