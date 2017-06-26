@@ -15,9 +15,10 @@ release-pip:
 	rm -fr dist
 
 CONTAINER=flomotlik/former
-
-release-docker:
+build-docker:
 	docker build -t $(CONTAINER) -f Dockerfile.release --no-cache .
+
+release-docker: build-docker
 	docker push $(CONTAINER)
 
 release: release-pip release-docker
