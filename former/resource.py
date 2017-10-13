@@ -90,8 +90,15 @@ class Property(object):
 
     def __new_resource(self, type):
         child_type = self.resource.split('.')[0] + '.' + type
-        if self.resource != child_type:
+
+        if self.resource != child_type and 'Properties' in TYPES.get(child_type, {}):
             return Resource(child_type).parameters()
+        elif self.resource != child_type:
+            return Property(
+                child_type,
+                TYPES[child_type].get(ITEM_TYPE, TYPES[child_type][PRIMITIVE_TYPE]),
+                TYPES[child_type]
+            ).type()
         else:
             return {'Recursive': self.resource, REQUIRED: self.required()}
 
