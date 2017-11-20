@@ -1,9 +1,11 @@
-bash:
+dev:
 	docker-compose build former
 	docker-compose run former bash
 
 test:
 	py.test --cov=former tests
+	pycodestyle .
+	pyflakes .
 
 release-pip:
 	rm -fr dist

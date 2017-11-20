@@ -15,6 +15,6 @@ def test_former_for_every_resource():
         try:
             resource = former.resource.Resource(key)
             resource.parameters()
-        except:
+        except Exception:
             print('Failed at type %s after %s successes' % (key, idx))
             raise

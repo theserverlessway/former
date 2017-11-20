@@ -5,6 +5,7 @@ import requests
 
 CACHE_PATH = '/tmp/former-spec.cached.json'
 
+
 def specification():
     if os.path.exists(CACHE_PATH):
         with open(CACHE_PATH) as f:
