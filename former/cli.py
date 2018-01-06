@@ -2,12 +2,12 @@ from __future__ import print_function
 import argparse
 import json
 import sys
+import traceback
 
 import yaml
 
 import former
 from former import __version__
-from former.resource import Resource
 
 
 def arguments():
@@ -18,12 +18,22 @@ def arguments():
     parser.add_argument('subtype', default='', nargs='?')
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--required', '-r', action='store_true')
-
+    parser.add_argument('--debug', '-d', action='store_true')
     return parser.parse_args()
 
 
 def main():
     args = arguments()
+
+    try:
+        from former.resource import Resource
+    except Exception:
+        print("Couldn't get spec for CloudFormation resources - usually this is a network issue.")
+        if args.debug:
+            traceback.print_exc()
+        else:
+            print("Use `former --debug` to get the full traceback")
+        sys.exit(1)
 
     type = former.resource.type_key(args.service, args.type, args.subtype)
     if type:
