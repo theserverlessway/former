@@ -29,6 +29,7 @@ def main():
         if args.debug:
             traceback.print_exc()
         else:
+            print("Exception: %s" % e)
             print("Use `former --debug` to get the full traceback")
         sys.exit(1)
 
