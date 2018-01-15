@@ -27,11 +27,12 @@ def main():
 
     try:
         from former.resource import Resource
-    except Exception:
+    except Exception as e:
         print("Couldn't get spec for CloudFormation resources - usually this is a network issue.")
         if args.debug:
             traceback.print_exc()
         else:
+            print("Exception: %s" % e)
             print("Use `former --debug` to get the full traceback")
         sys.exit(1)
 
