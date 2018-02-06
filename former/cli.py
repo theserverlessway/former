@@ -5,15 +5,18 @@ import sys
 import yaml
 
 import former
+from former import __version__
 from former.resource import Resource
 
 
 def arguments():
     parser = argparse.ArgumentParser(description='Print CloudFormation Resources')
+    parser.add_argument('--version', action='version', version='{}'.format(__version__))
     parser.add_argument('service')
     parser.add_argument('type')
     parser.add_argument('subtype', default='', nargs='?')
     parser.add_argument('--json', action='store_true')
+    parser.add_argument('--required', '-r', action='store_true')
 
     return parser.parse_args()
 
@@ -26,7 +29,7 @@ def main():
         resource = Resource(type)
         cf_resource = {'Type': type}
 
-        cf_resource['Properties'] = resource.parameters()
+        cf_resource['Properties'] = resource.parameters(args.required)
 
         data = {'Resources': {''.join(e for e in type if e.isalnum()): cf_resource}}
         if args.json:

@@ -26,24 +26,26 @@ class Resource(object):
     def __init__(self, type):
         self.root_type = type
 
-    def parameters(self):
+    def parameters(self, required_only):
         root_resource = TYPES[self.root_type]
 
         properties = {}
         for key, value in root_resource['Properties'].items():
-            prop = Property(self.root_type, key, value)
+            prop = Property(self.root_type, key, value, required_only)
             prop_value = prop.value()
             if prop_value is None:
                 print("{} {}".format(key, prop_value))
-            properties[key] = prop_value
+            if not required_only or prop.required():
+                properties[key] = prop_value
         return properties
 
 
 class Property(object):
-    def __init__(self, resource, property_type, definition):
+    def __init__(self, resource, property_type, definition, required_only):
         self.resource = resource
         self.definition = definition
         self.property_type = property_type
+        self.required_only = required_only
 
     def required(self):
         return self.definition['Required']
@@ -75,13 +77,13 @@ class Property(object):
         else:
             print(self.resource)
             print(self.item_type())
-            return Resource(self.resource + '.' + self.item_type()).parameters()
+            return Resource(self.resource + '.' + self.item_type()).parameters(self.required_only)
 
     def list_property(self):
         if self.is_primitive_collection():
             return [self.__collection_description()]
         elif self.definition.get(ITEM_TYPE) == 'Tag':
-            return [Resource('Tag').parameters()]
+            return [Resource('Tag').parameters(self.required_only)]
         else:
             return [self.__new_resource(self.item_type())]
 
@@ -92,7 +94,7 @@ class Property(object):
         child_type = self.resource.split('.')[0] + '.' + type
 
         if self.resource != child_type and 'Properties' in TYPES.get(child_type, {}):
-            return Resource(child_type).parameters()
+            return Resource(child_type).parameters(self.required_only)
         elif self.resource != child_type:
             return Property(
                 child_type,
