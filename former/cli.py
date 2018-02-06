@@ -14,6 +14,7 @@ def arguments():
     parser.add_argument('type')
     parser.add_argument('subtype', default='', nargs='?')
     parser.add_argument('--json', action='store_true')
+    parser.add_argument('--required', '-r', action='store_true')
 
     return parser.parse_args()
 
@@ -26,7 +27,7 @@ def main():
         resource = Resource(type)
         cf_resource = {'Type': type}
 
-        cf_resource['Properties'] = resource.parameters()
+        cf_resource['Properties'] = resource.parameters(args.required)
 
         data = {'Resources': {''.join(e for e in type if e.isalnum()): cf_resource}}
         if args.json:
