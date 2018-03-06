@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import json
 import sys
@@ -38,5 +39,5 @@ def main():
             output = yaml.safe_dump(data, allow_unicode=True, default_flow_style=False)
         print(output)
     else:
-        print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype))
+        print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype), file=sys.stderr)
         sys.exit(1)
