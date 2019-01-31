@@ -4,11 +4,13 @@ import json
 import sys
 import traceback
 import webbrowser
-
 import yaml
+import logging
 
 import former
 from former import __version__
+
+logger = logging.getLogger(__name__)
 
 
 def arguments():
@@ -30,12 +32,12 @@ def main():
     try:
         from former.resource import Resource
     except Exception as e:
-        print("Couldn't get spec for CloudFormation resources - usually this is a network issue.")
+        logger.info("Couldn't get spec for CloudFormation resources - usually this is a network issue.")
         if args.debug:
             traceback.print_exc()
         else:
-            print("Exception: %s" % e)
-            print("Use `former --debug` to get the full traceback")
+            logger.info("Exception: %s" % e)
+            logger.info("Use `former --debug` to get the full traceback")
         sys.exit(1)
 
     type = former.resource.type_key(args.service, args.type, args.subtype)
@@ -52,7 +54,7 @@ def main():
             output = json.dumps(data, indent=2)
         else:
             output = yaml.safe_dump(data, allow_unicode=True, default_flow_style=False)
-        print(output)
+        logger.info(output)
     else:
-        print('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype), file=sys.stderr)
+        logger.error('Resource not found for: {} {} {}'.format(args.service, args.type, args.subtype))
         sys.exit(1)

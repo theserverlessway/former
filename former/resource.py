@@ -1,4 +1,7 @@
 from former import specification
+import logging
+
+logger = logging.getLogger(__name__)
 
 PRIMITIVE_TYPE = 'PrimitiveType'
 PRIMITIVE_ITEM_TYPE = 'PrimitiveItemType'
@@ -34,7 +37,7 @@ class Resource(object):
             prop = Property(self.root_type, key, value, required_only)
             prop_value = prop.value()
             if prop_value is None:
-                print("{} {}".format(key, prop_value))
+                logger.info("{} {}".format(key, prop_value))
             if not required_only or prop.required():
                 properties[key] = prop_value
         return properties
@@ -79,9 +82,8 @@ class Property(object):
         if self.is_primitive_collection():
             return {'SampleKey': self.__collection_description()}
         else:
-            print(self.resource)
-            print(self.item_type())
-            return Resource(self.resource + '.' + self.item_type()).parameters(self.required_only)
+            split_resource = self.resource.split('.')
+            return Resource(split_resource[0] + '.' + self.item_type()).parameters(self.required_only)
 
     def list_property(self):
         if self.is_primitive_collection():

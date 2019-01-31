@@ -6,6 +6,7 @@ test:
 	py.test --cov=former tests
 	pycodestyle .
 	pyflakes .
+	grep -r 'print(' former; [ "$$?" -gt 0 ]
 
 release-pip:
 	rm -fr dist
