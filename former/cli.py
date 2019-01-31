@@ -3,6 +3,7 @@ import argparse
 import json
 import sys
 import traceback
+import webbrowser
 
 import yaml
 
@@ -18,6 +19,7 @@ def arguments():
     parser.add_argument('subtype', default='', nargs='?')
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--required', '-r', action='store_true')
+    parser.add_argument('--docs', '-o', action='store_true')
     parser.add_argument('--debug', '-d', action='store_true')
     return parser.parse_args()
 
@@ -44,6 +46,8 @@ def main():
         cf_resource['Properties'] = resource.parameters(args.required)
 
         data = {'Resources': {''.join(e for e in type if e.isalnum()): cf_resource}}
+        if args.docs:
+            webbrowser.open_new_tab(resource.documentation())
         if args.json:
             output = json.dumps(data, indent=2)
         else:
