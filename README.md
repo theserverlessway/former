@@ -50,3 +50,4 @@ want to get a quick overview for a subtype.
 ## Options
 
 * `--json` Print output in json instead of yaml
+* `--docs` Open the AWS docs to the resource specified

@@ -39,6 +39,10 @@ class Resource(object):
                 properties[key] = prop_value
         return properties
 
+    def documentation(self):
+        root_resource = TYPES[self.root_type]
+        return root_resource['Documentation']
+
 
 class Property(object):
     def __init__(self, resource, property_type, definition, required_only):
