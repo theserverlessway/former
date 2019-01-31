@@ -21,8 +21,8 @@ def arguments():
     parser.add_argument('subtype', default='', nargs='?')
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--required', '-r', action='store_true')
-    parser.add_argument('--docs', '-o', action='store_true')
-    parser.add_argument('--debug', '-d', action='store_true')
+    parser.add_argument('--docs', '-d', action='store_true')
+    parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
 
 
