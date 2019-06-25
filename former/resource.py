@@ -102,10 +102,12 @@ class Property(object):
         if self.resource != child_type and 'Properties' in TYPES.get(child_type, {}):
             return Resource(child_type).parameters(self.required_only)
         elif self.resource != child_type:
+            child_type_resource = TYPES[child_type]
             return Property(
                 child_type,
-                TYPES[child_type].get(ITEM_TYPE, TYPES[child_type][PRIMITIVE_TYPE]),
-                TYPES[child_type]
+                child_type_resource.get(ITEM_TYPE, child_type_resource.get(PRIMITIVE_TYPE)),
+                child_type_resource,
+                self.required_only
             ).type()
         else:
             return {'Recursive': self.resource, REQUIRED: self.required()}
