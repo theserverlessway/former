@@ -1,13 +1,14 @@
 import os
 import json
 import platform
+import pathlib
 
 import requests
 
 if platform.system() == 'Windows':
-    CACHE_PATH = os.getenv('TEMP') + '\former-spec.cached.json'
+    CACHE_PATH = pathlib.WindowsPath(os.getenv('TEMP') + '/former-spec.cached.json')
 else:
-    CACHE_PATH = '/tmp/former-spec.cached.json'
+    CACHE_PATH = pathlib.Path('/tmp/former-spec.cached.json')
 
 
 def specification():
