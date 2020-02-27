@@ -1,9 +1,13 @@
 import os
 import json
+import platform
 
 import requests
 
-CACHE_PATH = '/tmp/former-spec.cached.json'
+if platform.system() == 'Windows':
+    CACHE_PATH = os.getenv('TEMP') + '\former-spec.cached.json'
+else:
+    CACHE_PATH = '/tmp/former-spec.cached.json'
 
 
 def specification():
