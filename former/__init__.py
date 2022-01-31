@@ -1,7 +1,7 @@
 import logging
 import sys
 
-__version__ = '0.2.6'
+__version__ = '0.2.7'
 
 logger = logging.getLogger('former')
 handler = logging.StreamHandler(sys.stdout)
